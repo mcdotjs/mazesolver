@@ -1,4 +1,6 @@
 from tkinter import Tk, BOTH, Canvas, Label
+from line import Line
+
 
 class Window:
     def __init__(self, height=500, width=400):
@@ -21,6 +23,9 @@ class Window:
         self.__running = True
         while self.__running:
             self.redraw()
+
+    def draw_line(self, line, fill_color):
+        line.draw(self.__canvas, fill_color)
 
     def close(self):
         self.__running = False
