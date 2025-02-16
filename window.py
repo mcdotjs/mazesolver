@@ -1,6 +1,5 @@
 from tkinter import Tk, BOTH, Canvas, Label
 
-
 class Window:
     def __init__(self, height=500, width=400):
         self.__root = Tk()
