@@ -12,8 +12,10 @@ def main():
     p11 = Point(300, 10)
     p22 = Point(10, 300)
     cell1 = Cell(win, p11, p22)
+
     cell.draw()
     cell1.draw()
+    cell.draw_move(cell1)
     line = Line(p1, p2)
     win.draw_line(line, "white")
     win.wait_for_close()

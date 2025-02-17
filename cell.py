@@ -16,8 +16,12 @@ class Cell():
         self.has_right_wall = hasRight
         self.has_top_wall = hasTop
         self.has_bottom_wall = hasBottom
+        self.middlePoint = Point(
+            (self._x1 + self._x2)/2, (self._y1 + self._y2)/2)
 
     def draw(self):
+        if self._win is None:
+            return
         if self.has_left_wall:
             self._win.draw_line(Line(Point(self._x1, self._y1),
                                      Point(self._x1, self._y2)), "red")
@@ -30,3 +34,9 @@ class Cell():
         if self.has_bottom_wall:
             self._win.draw_line(Line(Point(self._x1, self._y2),
                                      Point(self._x2, self._y2)), "red")
+
+    def draw_move(self, another, undo=False):
+        color = "red"
+        if undo:
+            color = "gray"
+        self._win.draw_line(Line(self.middlePoint, another.middlePoint), color)
