@@ -3,7 +3,7 @@ from line import Line
 
 
 class Window:
-    def __init__(self, height=500, width=400):
+    def __init__(self, height=500, width=400, seed=None):
         self.__root = Tk()
         self.__running = False
 

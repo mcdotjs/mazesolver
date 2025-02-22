@@ -1,6 +1,7 @@
 from point import Point
 from cell import Cell
 import time
+import random
 
 
 class Maze():
@@ -13,6 +14,7 @@ class Maze():
         cell_size_x,
         cell_size_y,
         win=None,
+        seed=None
     ):
         self._win = win
         self._x1 = x1
@@ -22,8 +24,13 @@ class Maze():
         self._rows = num_rows
         self._cell_size_x = cell_size_x
         self._cell_size_y = cell_size_y
+        self._valid_cells = []
+
+        if seed is not None:
+            random.seed(seed)
         self._create_cells()
         self._break_entrance_and_exit()
+        self._break_walls_r(0, 0)
 
     def _create_cells(self):
         for j in range(self._cols):
@@ -54,3 +61,62 @@ class Maze():
         self._cells[self._cols-1][self._rows-1
                                   ].has_bottom_wall = False
         self._draw_cell(self._cols-1, self._rows-1)
+
+    def _break_walls_r(self, i, j):
+        current = None
+        if self._cells[i][j] is not None:
+            current = self._cells[i][j]
+        else:
+            return
+        current.visited = True
+        go = True
+        while go:
+            to_visit = []
+            go_right = i+1
+            go_left = i-1
+            go_up = j+1
+            go_down = j-1
+            neighbors = [[go_right, j], [go_left, j], [i, go_up], [i, go_down]]
+            if go_right < self._cols:
+                to_visit.append([go_right, j, "right"])
+            if go_left >= 0:
+                to_visit.append([go_left, j, "left"])
+            if go_up < self._rows:
+                to_visit.append([i, go_up, "up"])
+            if go_down >= 0:
+                to_visit.append([i, go_down, "down"])
+
+            if len(to_visit) == 0:
+                go = False
+                return
+            not_visited = []
+            for nei in to_visit:
+                if self._cells[nei[0]][nei[1]] and not self._cells[nei[0]][nei[1]].visited:
+                    not_visited.append(nei)
+
+            if len(not_visited) == 0:
+                go = False
+                return
+
+            index = random.randrange(0, len(not_visited), 1)
+
+            next = self._cells[not_visited[index][0]][not_visited[index][1]]
+
+            if not_visited[index][2] == "right":
+                current.has_right_wall = False
+                next.has_left_wall = False
+            if not_visited[index][2] == "left":
+                current.has_left_wall = False
+                next.has_right_wall = False
+            if not_visited[index][2] == "up":
+                current.has_top_wall = False
+                next.has_bottom_wall = False
+            if not_visited[index][2] == "down":
+                current.has_bottom_wall = False
+                next.has_top_wall = False
+
+            self._draw_cell(i, j)
+            self._draw_cell(not_visited[index][0], not_visited[index][1])
+            next.visited = True
+            print(index)
+            self._break_walls_r(not_visited[index][0], not_visited[index][1])

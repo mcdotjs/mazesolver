@@ -18,6 +18,7 @@ class Cell():
         self.has_bottom_wall = hasBottom
         self.middlePoint = Point(
             (self._x1 + self._x2)/2, (self._y1 + self._y2)/2)
+        self.visited = False
 
     def draw(self):
         if self._win is None:
