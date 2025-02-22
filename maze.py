@@ -7,12 +7,12 @@ import time
 class Maze():
     def __init__(
         self,
-        x1=100,
-        y1=300,
-        num_rows=10,
-        num_cols=7,
-        cell_size_x=30,
-        cell_size_y=50,
+        x1,
+        y1,
+        num_rows,
+        num_cols,
+        cell_size_x,
+        cell_size_y,
         win=None,
     ):
         self._win = win
