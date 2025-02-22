@@ -23,17 +23,29 @@ class Cell():
         if self._win is None:
             return
         if self.has_left_wall:
-            self._win.draw_line(Line(Point(self._x1, self._y1),
-                                     Point(self._x1, self._y2)), "red")
+            line = Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
+            self._win.draw_line(line, "red")
+        else:
+            self._win.draw_line(
+                Line(Point(self._x1, self._y1), Point(self._x1, self._y2)), "black")
         if self.has_right_wall:
-            self._win.draw_line(Line(Point(self._x2, self._y1),
-                                     Point(self._x2, self._y2)), "red")
+            line = Line(Point(self._x2, self._y1), Point(self._x2, self._y2))
+            self._win.draw_line(line, "red")
+        else:
+            self._win.draw_line(
+                Line(Point(self._x2, self._y1), Point(self._x2, self._y2)), "black")
         if self.has_top_wall:
-            self._win.draw_line(Line(Point(self._x1, self._y1),
-                                     Point(self._x2, self._y1)), "red")
+            line = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
+            self._win.draw_line(line, "red")
+        else:
+            self._win.draw_line(
+                Line(Point(self._x1, self._y1), Point(self._x2, self._y1)), "black")
         if self.has_bottom_wall:
-            self._win.draw_line(Line(Point(self._x1, self._y2),
-                                     Point(self._x2, self._y2)), "red")
+            line = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
+            self._win.draw_line(line, "red")
+        else:
+            self._win.draw_line(
+                Line(Point(self._x1, self._y2), Point(self._x2, self._y2)), "black")
 
     def draw_move(self, another, undo=False):
         color = "red"
