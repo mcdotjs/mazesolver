@@ -9,8 +9,8 @@ class Maze():
         self,
         x1,
         y1,
-        num_rows,
         num_cols,
+        num_rows,
         cell_size_x,
         cell_size_y,
         win=None,
@@ -40,9 +40,11 @@ class Maze():
                 self._cells[j].append(cell)
 
     def _draw_cell(self, x, y):
-        self._cells[x][y].draw()
-        self._animate()
+        if len(self._cells) != 0:
+            self._cells[x][y].draw()
+            self._animate()
 
     def _animate(self):
-        self._win.redraw()
-        time.sleep(0.05)
+        if self._win != None:
+            self._win.redraw()
+            time.sleep(0.05)
