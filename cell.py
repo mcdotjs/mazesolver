@@ -6,7 +6,7 @@ from point import Point
 
 
 class Cell():
-    def __init__(self, win, topleft, bottomright, hasLeft=True, hasRight=True, hasTop=True, hasBottom=True):
+    def __init__(self, topleft, bottomright, hasLeft=True, hasRight=True, hasTop=True, hasBottom=True, win=None):
         self._x1 = topleft.x
         self._y1 = topleft.y
         self._x2 = bottomright.x

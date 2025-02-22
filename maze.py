@@ -35,8 +35,8 @@ class Maze():
             for i in range(self._cols):
                 c = j*self._cell_size_x
                 t = i*self._cell_size_y
-                cell = Cell(self._win,  Point(self._x1+c, self._y1+t),
-                            Point(self._cell_size_x+c+self._x1, self._cell_size_y+t+self._y1))
+                cell = Cell(Point(self._x1+c, self._y1+t),
+                            Point(self._cell_size_x+c+self._x1, self._cell_size_y+t+self._y1), win=self._win)
                 self._cells[j].append(cell)
 
     def _draw_cell(self, x, y):
