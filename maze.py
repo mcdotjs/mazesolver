@@ -54,7 +54,7 @@ class Maze():
     def _animate(self):
         if self._win is not None:
             self._win.redraw()
-            time.sleep(0.01)
+            time.sleep(0.05)
 
     def _break_entrance_and_exit(self):
         self._cells[0][0].has_top_wall = False
@@ -104,16 +104,16 @@ class Maze():
             index = random.randrange(0, len(not_visited), 1)
 
             next = self._cells[not_visited[index][0]][not_visited[index][1]]
-            print(not_visited[index])
+            # print(not_visited[index])
             if not_visited[index][2] == "right":
                 current.has_right_wall = False
                 next.has_left_wall = False
             elif not_visited[index][2] == "left":
-                print('left', not_visited[index])
+                # print('left', not_visited[index])
                 current.has_left_wall = False
                 next.has_right_wall = False
             elif not_visited[index][2] == "up":
-                print("up", not_visited[index])
+                # print("up", not_visited[index])
                 current.has_top_wall = False
                 next.has_bottom_wall = False
             elif not_visited[index][2] == "down":
@@ -125,3 +125,76 @@ class Maze():
             self._draw_cell(not_visited[index][0], not_visited[index][1])
             self._break_walls_r(not_visited[index][0], not_visited[index][1])
 
+    def solve_r(self, x, y):
+        self._animate()
+        current = self._cells[x][y]
+        current.visited = True
+        if current is self._cells[self._cols-1][self._rows-1]:
+            return True
+        to_visit = []
+        go_down = y+1
+        go_up = y-1
+        go_right = x+1
+        go_left = x-1
+        if go_right < self._cols:
+            to_visit.append([go_right, y, "right"])
+        if go_left >= 0:
+            to_visit.append([go_left, y, "left"])
+        if go_up >= 0:
+            to_visit.append([x, go_up, "up"])
+        if go_down < self._rows:
+            to_visit.append([x, go_down, "down"])
+
+        if len(to_visit) == 0:
+            return False
+
+        not_visited = []
+        for nei in to_visit:
+            if self._cells[nei[0]][nei[1]] and not self._cells[nei[0]][nei[1]].visited:
+                not_visited.append(nei)
+
+        if len(not_visited) == 0:
+            return False
+
+        for cell in not_visited:
+            next = self._cells[cell[0]][cell[1]]
+            if cell[2] == "right" and not current.has_right_wall and not next.has_left_wall:
+                current.draw_move(next)
+                next.visited = True
+
+                v = self.solve_r(cell[0], cell[1])
+                if v:
+                    return True
+                else:
+                    current.draw_move(self._cells[cell[0]][cell[1]], True)
+            if cell[2] == "left" and not current.has_left_wall and not next.has_right_wall:
+                current.draw_move(next)
+                next.visited = True
+                v = self.solve_r(cell[0], cell[1])
+                if v:
+                    return True
+                else:
+                    current.draw_move(self._cells[cell[0]][cell[1]], True)
+            if cell[2] == "up" and not current.has_top_wall and not next.has_bottom_wall:
+                current.draw_move(next)
+                next.visited = True
+
+                v = self.solve_r(cell[0], cell[1])
+                if v:
+                    return True
+                else:
+                    current.draw_move(self._cells[cell[0]][cell[1]], True)
+
+            if cell[2] == "down" and not current.has_bottom_wall and not next.has_top_wall:
+                current.draw_move(next)
+                next.visited = True
+
+                v = self.solve_r(cell[0], cell[1])
+                if v:
+                    return True
+                else:
+                    current.draw_move(self._cells[cell[0]][cell[1]], True)
+
+    def solve(self):
+        print("solvla")
+        return self.solve_r(0, 0)

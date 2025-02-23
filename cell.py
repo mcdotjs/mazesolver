@@ -49,7 +49,7 @@ class Cell():
                 Line(Point(self._x1, self._y2), Point(self._x2, self._y2)), "black")
 
     def draw_move(self, another, undo=False):
-        color = "red"
+        color = "white"
         if undo:
             color = "gray"
         self._win.draw_line(Line(self.middlePoint, another.middlePoint), color)
