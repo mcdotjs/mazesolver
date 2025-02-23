@@ -80,20 +80,18 @@ class Maze():
             to_visit = []
             go_right = i+1
             go_left = i-1
-            go_up = j+1
-            go_down = j-1
-            neighbors = [[go_right, j], [go_left, j], [i, go_up], [i, go_down]]
+            go_down = j+1
+            go_up = j-1
             if go_right < self._cols:
                 to_visit.append([go_right, j, "right"])
             if go_left >= 0:
                 to_visit.append([go_left, j, "left"])
-            if go_up < self._rows:
+            if go_up >= 0:
                 to_visit.append([i, go_up, "up"])
-            if go_down >= 0:
+            if go_down < self._rows:
                 to_visit.append([i, go_down, "down"])
 
             if len(to_visit) == 0:
-                go = False
                 return
             not_visited = []
             for nei in to_visit:
@@ -101,27 +99,29 @@ class Maze():
                     not_visited.append(nei)
 
             if len(not_visited) == 0:
-                go = False
                 return
 
             index = random.randrange(0, len(not_visited), 1)
 
             next = self._cells[not_visited[index][0]][not_visited[index][1]]
-
+            print(not_visited[index])
             if not_visited[index][2] == "right":
                 current.has_right_wall = False
                 next.has_left_wall = False
-            if not_visited[index][2] == "left":
+            elif not_visited[index][2] == "left":
+                print('left', not_visited[index])
                 current.has_left_wall = False
                 next.has_right_wall = False
-            if not_visited[index][2] == "up":
+            elif not_visited[index][2] == "up":
+                print("up", not_visited[index])
                 current.has_top_wall = False
                 next.has_bottom_wall = False
-            if not_visited[index][2] == "down":
+            elif not_visited[index][2] == "down":
                 current.has_bottom_wall = False
                 next.has_top_wall = False
 
+            next.visited = True
             self._draw_cell(i, j)
             self._draw_cell(not_visited[index][0], not_visited[index][1])
-            next.visited = True
             self._break_walls_r(not_visited[index][0], not_visited[index][1])
+
